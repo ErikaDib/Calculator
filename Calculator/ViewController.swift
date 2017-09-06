@@ -9,6 +9,8 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    private var brain:CalculatorBrain=CalculatorBrain()
 
    
     @IBOutlet weak var display: UILabel!
@@ -44,22 +46,19 @@ class ViewController: UIViewController {
 
     
     @IBAction func performOperation(_ sender: UIButton) {
-        userInTHeMiddleOfTyping=false
+        if(userInTHeMiddleOfTyping){
+            brain.setOperant(displayValue)
+            userInTHeMiddleOfTyping=false
+            
+        }
         if let mathematicalSymbol=sender.currentTitle{
             
-            switch mathematicalSymbol{
-            case "π":
-                displayValue=Double.pi
-            case "√":
-                displayValue=sqrt(displayValue)
-            default:
-                break
-            }
-            
-            
-            
-            
-            
+            brain.performOperation(mathematicalSymbol)
+        }
+        if let result = brain.result{
+            displayValue=result
+        }
+        
             /*
             if mathematicalSymbol=="π"{
                 display!.text=String(Double.pi)
@@ -68,4 +67,4 @@ class ViewController: UIViewController {
     }
     
     }
-}
+
